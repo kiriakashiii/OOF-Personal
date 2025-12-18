@@ -1,4 +1,4 @@
-﻿using Dalamud.Interface;
+using Dalamud.Interface;
 using Dalamud.Interface.Colors;
 using Dalamud.Interface.Components;
 using Dalamud.Interface.ImGuiFileDialog;
@@ -8,7 +8,6 @@ using Dalamud.Plugin;
 using Dalamud.Utility;
 using Dalamud.Bindings.ImGui;
 using Dalamud.Bindings.ImPlot;
-using ImGuiScene;
 using System;
 using System.IO;
 using System.Numerics;
@@ -17,8 +16,7 @@ using Dalamud.Interface.Textures.TextureWraps;
 using Dalamud.Plugin.Services;
 using Dalamud.Interface.Textures;
 
-namespace OofPlugin
-{
+namespace OofPlugin {
     partial class PluginUI : IDisposable
     {
         private Configuration configuration;
@@ -241,7 +239,7 @@ namespace OofPlugin
                 ImGui.SameLine(ImGui.GetContentRegionAvail().X - ImGui.GetFontSize() * 2.4f);
                 ImGui.PushFont(UiBuilder.IconFont);
 
-                if (CornerButton(FontAwesomeIcon.Play.ToIconString(), "dbo:play", ImDrawFlags.RoundCornersLeft)) plugin.TestDistanceAudio(plugin.CancelToken.Token);
+                if (CornerButton(FontAwesomeIcon.Play.ToIconString(), "dbo:play", ImDrawFlags.RoundCornersLeft))_ = plugin.TestDistanceAudio(plugin.CancelToken.Token);
                 ImGui.PopFont();
                 if (ImGui.IsItemHovered()) ImGui.SetTooltip("Test distance");
 
@@ -337,27 +335,27 @@ namespace OofPlugin
 
                 //logo
                 var creditsTextureWrap = this.creditsTexture.GetWrapOrDefault();
-                var size = new Vector2(creditsTextureWrap.Width , creditsTextureWrap.Height);
-                ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, Vector2.Zero);
-                ImGui.PushStyleVar(ImGuiStyleVar.FrameRounding, 13);
-                ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(0, 0, 0, 0));
-                ImGui.SetCursorPos(ImGui.GetWindowSize() - size);
+                if (creditsTextureWrap != null)
+                    {
+                        var size = new Vector2(creditsTextureWrap.Width, creditsTextureWrap.Height);
+                        ImGui.PushStyleVar(ImGuiStyleVar.FramePadding, Vector2.Zero);
+                        ImGui.PushStyleVar(ImGuiStyleVar.FrameRounding, 13);
+                        ImGui.PushStyleColor(ImGuiCol.Button, new Vector4(0, 0, 0, 0));
+                        ImGui.SetCursorPos(ImGui.GetWindowSize() - size);
+                            if (ImGui.ImageButton(creditsTextureWrap.Handle, size))
+                                Util.OpenLink("https://github.com/Frogworks-Interactive");
+                                ImGui.PopStyleVar(2);
+                                ImGui.PopStyleColor();
 
-                if (ImGui.ImageButton(creditsTextureWrap.Handle, size)) Util.OpenLink("https://github.com/Frogworks-Interactive");
-                ImGui.PopStyleVar(2);
-                ImGui.PopStyleColor();
-                if (ImGui.IsItemHovered())
-                {
-                    ImGui.SetMouseCursor(ImGuiMouseCursor.Hand);
-                    ImGui.BeginTooltip();
-                    ImGui.Text("Visit Github");
-
-                    ImGui.EndTooltip();
-                }
-
-                manager.Draw();
+                                if (ImGui.IsItemHovered())
+                                    {
+                                       ImGui.SetMouseCursor(ImGuiMouseCursor.Hand);
+                                       ImGui.BeginTooltip();
+                                       ImGui.Text("Visit Github");
+                                       ImGui.EndTooltip();
+                                    }
+                    }
             }
-            ImGui.End();
         }
 
 
