@@ -1,4 +1,4 @@
-﻿using Dalamud.Game.ClientState.Objects.SubKinds;
+using Dalamud.Game.ClientState.Objects.SubKinds;
 using Dalamud.Game.ClientState.Party;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,12 +50,9 @@ namespace OofPlugin
         public void AddRemoveDeadPlayer(IPartyMember character, bool condition = true)
         {
             if (character == null) return;
-            var deadPlayer = new DeadPlayer { PlayerId = character.ObjectId, Distance = character.Position };
-            AddRemoveDeadPlayer(deadPlayer, character.CurrentHP, character.ObjectId, condition);
+            var id = character.EntityId; // cleaning up error
+            var deadPlayer = new DeadPlayer { PlayerId = id, Distance = character.Position };
+            AddRemoveDeadPlayer(deadPlayer, character.CurrentHP, id, condition);
         }
-
-
-
-
     }
 }
